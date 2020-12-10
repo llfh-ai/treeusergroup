@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.14.1/lib/theme-chalk/index.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+<!-- Element Cascader 级联选择器,https://element.eleme.cn/#/zh-CN/component/cascader --> 
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui@2.14.1/lib/index.js"></script>
+
+
+<div id="app">
+<el-input
+  placeholder="输入关键字进行过滤"
+  v-model="filterText">
+</el-input>
+
+<el-tree
+  class="filter-tree"
+  :data="data"
+  :props="defaultProps"
+  accordion
+  @node-click="handleNodeClick"
+  :default-expand-all="false"
+  :filter-node-method="filterNode"
+  ref="tree">
+</el-tree>
+</div>
+
+    <script>
+var Main = {
+    watch: {
+      filterText(val) {
+        this.$refs.tree.filter(val);
+      }
+    },
+
+    methods: {
+      filterNode(value, data) {
+        if (!value) return true;
+        return data.label.indexOf(value) !== -1;
+      }
+    },
+
+    data() {
+      return {
+        filterText: '',
+        data: [
+        {id:01,label: '超级管理员'},
+        {id:02,label: '普通用户'},
+        {id:03,label: '医学部管理员',children:[{id:0301,label: '系所管理员'}]},
+        {id:04,label: '科室管理组',children:[{id:0401,label: '科室主任'},{id:0402,label: '科室副主任'}]},
+        {id:05,label: '教研室管理组',children:[{id:0501,label: '教研室主任'},{id:0502,label: '教研室副主任'},{id:0503,label: '教研室教学秘书'}]},
+        {id:06,label: '教师组',children:[{id:0601,label: '脱产带教'},{id:0602,label: '教学人员'}]}
+        ],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        }
+      };
+    }
+  };
+var Ctor = Vue.extend(Main)
+new Ctor().$mount('#app')
+    </script>
+</body> 
+</html>
